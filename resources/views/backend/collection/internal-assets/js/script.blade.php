@@ -3,7 +3,7 @@
     processing:true,
     serverSide:true,
     ajax:{
-      url:"{{route('donor.create')}}"
+      url:"{{route('collection.create')}}"
     },
     columns:[
       {
@@ -17,12 +17,12 @@
         name:'name',
       },
       {
-        data:'adress',
-        name:'adress',
+        data:'total',
+        name:'total',
       },
       {
-        data:'mobile',
-        name:'mobile',
+        data:'adress',
+        name:'adress',
       },
       {
         data:'action',
@@ -32,22 +32,42 @@
 });
 
 window.formRequest= function(){
-    $('#name').removeClass('is-invalid');
-    let name=$('#name').val();
-    let adress=$('#adress').val();
-    let mobile=$('#mobile').val();
+    $('input,select').removeClass('is-invalid');
+    let donor=$('#donor').val();
+    let sostoyoni=$('#sostoyoni').val();
+    let istovriti=$('#istovriti').val();
+    let dokkhina=$('#dokkhina').val();
+    let songothoni=$('#songothoni').val();
+    let pronami=$('#pronami').val();
+    let advertisement=$('#advertisement').val();
+    let mandir_construction=$('#mandir_construction').val();
+    let various=$('#various').val();
+    let rittiki = $("select[name='rittiki[]']")
+                  .map(function(){return $(this).val();}).get();
+    let rittiki_ammount = $("input[name='rittiki_ammount[]']")
+                  .map(function(){return $(this).val();}).get();
+    console.log(donor,sostoyoni,istovriti,dokkhina,songothoni,pronami,advertisement,mandir_construction,various,rittiki,rittiki_ammount);
+ 
     let id=$('#id').val();
     let formData= new FormData();
-    formData.append('name',name);
-    formData.append('adress',adress);
-    formData.append('mobile',mobile);
-    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
+    formData.append('donor',donor);
+    formData.append('sostoyoni',sostoyoni);
+    formData.append('istovriti',istovriti);
+    formData.append('dokkhina',dokkhina);
+    formData.append('songothoni',songothoni);
+    formData.append('pronami',pronami);
+    formData.append('advertisement',advertisement);
+    formData.append('mandir_construction',mandir_construction);
+    formData.append('various',various);
+    formData.append('rittiki',rittiki);
+    formData.append('rittiki_ammount',rittiki_ammount);
+    $('#exampleModalLabel').text('কালেকশন হালনাগাত করুন');
     if(id!=''){
       formData.append('_method','PUT');
     }
     //axios post request
     if (id==''){
-         axios.post("{{route('donor.store')}}",formData)
+         axios.post("{{route('collection.store')}}",formData)
         .then(function (response){
             if(response.data.message){
                 toastr.success(response.data.message)
@@ -63,7 +83,7 @@ window.formRequest= function(){
             }
         })
     }else{
-      axios.post("{{URL::to('donor/')}}/"+id,formData)
+      axios.post("{{URL::to('collection/')}}/"+id,formData)
         .then(function (response){
           if(response.data.message){
               toastr.success(response.data.message);
@@ -81,11 +101,11 @@ window.formRequest= function(){
 }
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
-    $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
+    $('#exampleModalLabel').text('নতুন কালেকশন যুক্ত করুন');
 
 });
 $(document).delegate(".editRow", "click", function(){
-    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
+    $('#exampleModalLabel').text('কালেকশন হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{
@@ -132,4 +152,77 @@ function clear(){
   $(".invalid-feedback").text('');
   $('form select').val('').niceSelect('update');
 }
+
+// $('#donor').select2({
+//   'theme':'bootstrap4',
+// })
+
+$('#donor').select2({
+    theme:'bootstrap4',
+    placeholder:'select',
+    allowClear:true,
+    ajax:{
+      url:"{{URL::to('/get-donor')}}",
+      type:'post',
+      dataType:'json',
+      delay:20,
+      data:function(params){
+        return {
+          searchTerm:params.term,
+          _token:"{{csrf_token()}}",
+          }
+      },
+      processResults:function(response){
+        return {
+          results:response,
+        }
+      },
+      cache:true,
+    }
+  })
+  var countRittiki=0;
+  function newRittiki(){
+    
+    html=`<tr>
+            <td width="65%"><select class="form-control rittiki" name="rittiki[]" id="rittiki`+countRittiki+`"><option value="">select</option></select></td>
+            <td width="20%"><input type="number" class="form-control" name="rittiki_ammount[]" placeholder="0.00"></td>
+            <td width="15%"><button class="btn  btn-danger" onclick="removeRittik(this)">X</button></td>
+          </tr>`
+          $('#render_rittiki').append(html);
+
+    $(".rittiki").select2({
+    theme:'bootstrap4',
+    placeholder:'select',
+    allowClear:true,
+    ajax:{
+      url:"{{URL::to('/get-rittiki')}}",
+      type:'post',
+      dataType:'json',
+      delay:20,
+      data:function(params){
+        return {
+          searchTerm:params.term,
+          _token:"{{csrf_token()}}",
+          }
+      },
+      processResults:function(response){
+        return {
+          results:response,
+        }
+      },
+      cache:true,
+    }
+  })
+    countRittiki+=1;
+
+  }
+ $(document).ready(function(){
+    newRittiki();
+ })
+  function removeRittik(val){
+    $(val).parent().parent().remove();
+  }
+
+
+  
 </script>

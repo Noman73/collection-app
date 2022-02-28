@@ -66,18 +66,24 @@
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">নাম:</label>
                       <input type="text" class="form-control" id="name" placeholder="নাম লিখুন">
+                      <div class="invalid-feedback" id="name_msg">
+                      </div>
                     </div>
                   </div>
                   <div class="col-8 mr-auto ml-auto"> 
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">ঠিকানা:</label>
                       <input type="text" class="form-control" id="adress" placeholder="ঠিকানা">
+                      <div class="invalid-feedback" id="adress_msg">
+                      </div>
                     </div>
                   </div>
                   <div class="col-8 mr-auto ml-auto">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">মোবাইল:</label>
                       <input type="number" class="form-control" id="mobile" placeholder="মোবাইল">
+                      <div class="invalid-feedback" id="mobile_msg">
+                      </div>
                     </div>
                   </div>
                 </div>

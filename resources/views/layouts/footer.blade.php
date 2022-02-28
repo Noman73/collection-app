@@ -43,6 +43,7 @@
 <script src="{{asset('storage/adminlte/dist/js/adminlte.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('storage/adminlte/dist/js/demo.js')}}"></script>
+<script src="{{asset('storage/adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('storage/adminlte/dist/js/pages/dashboard.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

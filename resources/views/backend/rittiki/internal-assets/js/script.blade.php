@@ -3,7 +3,7 @@
     processing:true,
     serverSide:true,
     ajax:{
-      url:"{{route('donor.index')}}"
+      url:"{{route('rittiki.index')}}"
     },
     columns:[
       {
@@ -32,7 +32,7 @@
 });
 
 window.formRequest= function(){
-    $('#name').removeClass('is-invalid');
+  $('input,select').removeClass('is-invalid');
     let name=$('#name').val();
     let adress=$('#adress').val();
     let mobile=$('#mobile').val();
@@ -41,13 +41,13 @@ window.formRequest= function(){
     formData.append('name',name);
     formData.append('adress',adress);
     formData.append('mobile',mobile);
-    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
+    $('#exampleModalLabel').text('ঋত্বিকী হালনাগাত করুন');
     if(id!=''){
       formData.append('_method','PUT');
     }
     //axios post request
     if (id==''){
-         axios.post("{{route('donor.store')}}",formData)
+         axios.post("{{route('rittiki.store')}}",formData)
         .then(function (response){
             if(response.data.message){
                 toastr.success(response.data.message)
@@ -63,7 +63,7 @@ window.formRequest= function(){
             }
         })
     }else{
-      axios.post("{{URL::to('donor/')}}/"+id,formData)
+      axios.post("{{URL::to('rittiki/')}}/"+id,formData)
         .then(function (response){
           if(response.data.message){
               toastr.success(response.data.message);
@@ -81,11 +81,11 @@ window.formRequest= function(){
 }
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
-    $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
+    $('#exampleModalLabel').text('নতুন ঋত্বিকী যুক্ত করুন');
 
 });
 $(document).delegate(".editRow", "click", function(){
-    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
+    $('#exampleModalLabel').text(' ঋত্বিকী হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{

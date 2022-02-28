@@ -102,10 +102,11 @@ class DonorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $validator=Validator::make($request->all(),[
-            'name'=>"required|max:200|min:1",
-            'adress'=>"required|max:200|min:1",
-            'mobile'=>"required|max:200|min:1",
+            'name'=>["required","max:200","min:1"],
+            'adress'=>["required","max:200","min:1"],
+            'mobile'=>["required","max:200","min:1"],
         ]);
 
         if($validator->passes()){
@@ -130,6 +131,19 @@ class DonorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete=Donor::where('id',$id)->delete();
+        if ($delete) {
+            return response()->json(['message'=>'দাতা ডিলেট করা হয়েছে']);
+        }else{
+            return response()->json(['warning'=>'কিছু একটা ভুল করেছেন']);
+        }
+
+    }
+    public function getDonor(Request $request){
+       $donors= Donor::where('name','like','%'.$request->searchTerm.'%')->orWhere('mobile','like','%'.$request->searchTerm.'%')->take(15)->get();
+       foreach ($donors as $value){
+            $set_data[]=['id'=>$value->id,'text'=>$value->name.'('.$value->mobile.')'];
+        }
+        return $set_data;
     }
 }

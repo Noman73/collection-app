@@ -34,8 +34,10 @@
               <table class="table text-center" id="datatable">
                 <thead>
                   <tr>
+                    <th>আইডি</th>
                     <th>নাম</th>
                     <th>মোট</th>
+                    <th>ঠিকানা</th>
                     <th>এ্যাকশন</th>
                   </tr>
                 </thead>
@@ -56,12 +58,14 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form method="POST">
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group">
-                      <label for="recipient-name" class="col-form-label">নাম:</label>
-                      <input type="text" class="form-control" id="name" placeholder="নাম লিখুন">
+                      <label for="recipient-name" class="col-form-label">দাতা:</label>
+                      <select  class="form-control" id="donor" >
+                        <option value="">select</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-12 col-md-6"> 
@@ -91,25 +95,19 @@
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">প্রনামী:</label>
-                      <input type="text" class="form-control" id="rittika" placeholder="0.00">
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="message-text" class="col-form-label">ঋত্বিকী:</label>
-                      <input type="text" class="form-control" id="advertise" placeholder="0.00">
+                      <input type="text" class="form-control" id="pronami" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">প্রচার ও প্রকাশন:</label>
-                      <input type="text" class="form-control" id="mandir_construction" placeholder="0.00">
+                      <input type="text" class="form-control" id="advertisement" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">শ্রীমন্দির নির্মান:</label>
-                      <input type="text" class="form-control" id="various" placeholder="0.00">
+                      <input type="text" class="form-control" id="mandir_construction" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
@@ -120,13 +118,19 @@
                   </div>
                 </div>
                 <div class="row">
-                    
+                    <h5 class="text-center">ঋত্বিকী সিলেক্ট করুন</h5>
+                    <table class="table table-sm text-center">
+                      <tbody id="render_rittiki">
+                       
+                      </tbody>
+                    </table>
+                    <button class="btn btn-primary" onclick="event.preventDefault();newRittiki()"><i class="fa fa-plus"></i></button>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-primary" onclick="event.preventDefault();formRequest()">Save</button>
             </div>
           </div>
         </div>

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Collections;
+use App\Models\RittikiRelation;
 class CollectionController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class CollectionController extends Controller
     public function index()
     {
         if (request()->ajax()){
-            $get=Category::query();
+            $get=Collections::query();
             return DataTables::of($get)
               ->addIndexColumn()
               ->addColumn('action',function($get){
@@ -53,7 +54,47 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'donor'=>"required|max:200|min:1",
+            'sostoyoni'=>"required|max:200|min:1",
+            'istovriti'=>"required|max:200|min:1",
+            'dokkhina'=>"required|max:200|min:1",
+            'songothoni'=>"required|max:200|min:1",
+            'pronami'=>"required|max:200|min:1",
+            'advertisement'=>"required|max:200|min:1",
+            'mandir_construction'=>"required|max:200|min:1",
+            'various'=>"required|max:200|min:1",
+            'rittiki'=>"required|max:200|min:1",
+            'rittiki_ammount'=>"required|max:200|min:1",
+        ]);
+
+        if($validator->passes()){
+            $collection=new Donor;
+            $collection->donor_id=$request->donor;
+            $collection->sostoyoni=$request->sostoyoni;
+            $collection->istovriti=$request->istovriti;
+            $collection->dokkhina=$request->dokkhina;
+            $collection->songothoni=$request->songothoni;
+            $collection->pronami=$request->pronami;
+            $collection->advertisement=$request->advertisement;
+            $collection->mandir_construction=$request->mandir_construction;
+            $collection->various=$request->various;
+            $collection->author_id=auth()->user()->id;
+            $collection->save();
+            $ammount=explode(',',$request->rittiki_ammount);
+            $i=0;
+            foreach(explode(',',$request->rittiki) as $data){
+                $rittiki_relations=new RittikiRelation;
+                $rittiki_relations->collection_id=$collection->id;
+                $rittiki_relations->ammount=$ammount[$i];
+                $rittiki_relations->rittiki_id=$data;
+                $i++;
+            }
+            if ($collection){
+                return response()->json(['message'=>'Donor Added Success']);
+            }
+        }
+        return response()->json(['error'=>$validator->getMessageBag()]);
     }
 
     /**

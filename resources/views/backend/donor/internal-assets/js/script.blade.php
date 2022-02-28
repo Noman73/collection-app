@@ -32,7 +32,7 @@
 });
 
 window.formRequest= function(){
-    $('#name').removeClass('is-invalid');
+    $('input,select').removeClass('is-invalid');
     let name=$('#name').val();
     let adress=$('#adress').val();
     let mobile=$('#mobile').val();
