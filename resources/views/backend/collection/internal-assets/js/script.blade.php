@@ -3,7 +3,7 @@
     processing:true,
     serverSide:true,
     ajax:{
-      url:"{{route('collection.create')}}"
+      url:"{{route('collection.index')}}"
     },
     columns:[
       {
@@ -69,11 +69,12 @@ window.formRequest= function(){
     if (id==''){
          axios.post("{{route('collection.store')}}",formData)
         .then(function (response){
+          console.log(response)
             if(response.data.message){
                 toastr.success(response.data.message)
                 datatable.ajax.reload();
                 clear();
-                $('#exampleModal').modal('hide');
+                $('#modal').modal('hide');
             }else if(response.data.error){
               var keys=Object.keys(response.data.error);
               keys.forEach(function(d){
@@ -102,24 +103,35 @@ window.formRequest= function(){
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
     $('#exampleModalLabel').text('নতুন কালেকশন যুক্ত করুন');
-
 });
 $(document).delegate(".editRow", "click", function(){
     $('#exampleModalLabel').text('কালেকশন হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{
+      console.log(data.data)
       var editKeys=Object.keys(data.data);
       editKeys.forEach(function(key){
         if(key=='name'){
           $('#'+'name').val(data.data[key]);
         }
-        if(key=='category_id'){
-          $('#category').val(data.data[key]).niceSelect('update');
+        if(key=='advertise'){
+          $('#advertisement').val(data.data[key]);
         }
          $('#'+key).val(data.data[key]);
-         $('#exampleModal').modal('show');
+         $('#modal').modal('show');
          $('#id').val(data.data.id);
+         if(key=='rittik'){
+           index=0;
+           data.data[key].forEach(function(d){
+             console.log(d)
+             editRittiki();
+             console.log('#rittiki'+index)
+              $('#rittiki'+index).html("<option value='"+d.rittiki.id+"'>"+d.rittiki.name+"</option>");
+              $('#rittiki_ammount'+index).val(d.rittiki.ammount);
+             index+1
+           })
+         }
       })
     })
 });
@@ -150,7 +162,7 @@ $(document).delegate(".deleteRow", "click", function(){
 function clear(){
   $("input").removeClass('is-invalid').val('');
   $(".invalid-feedback").text('');
-  $('form select').val('').niceSelect('update');
+  $('form select').val('').trigger('change');
 }
 
 // $('#donor').select2({
@@ -185,7 +197,7 @@ $('#donor').select2({
     
     html=`<tr>
             <td width="65%"><select class="form-control rittiki" name="rittiki[]" id="rittiki`+countRittiki+`"><option value="">select</option></select></td>
-            <td width="20%"><input type="number" class="form-control" name="rittiki_ammount[]" placeholder="0.00"></td>
+            <td width="20%"><input type="number" class="form-control" name="rittiki_ammount[]" id="rittiki_ammount`+countRittiki+`" placeholder="0.00"></td>
             <td width="15%"><button class="btn  btn-danger" onclick="removeRittik(this)">X</button></td>
           </tr>`
           $('#render_rittiki').append(html);
@@ -215,6 +227,41 @@ $('#donor').select2({
   })
     countRittiki+=1;
 
+  }
+ 
+  function editRittiki(){
+    
+    html=`<tr>
+            <td width="65%"><select class="form-control rittiki" name="rittiki[]" id="rittiki`+countRittiki+`"><option value="">select</option></select></td>
+            <td width="20%"><input type="number" class="form-control" name="rittiki_ammount[]" id="rittiki_ammount`+countRittiki+`" placeholder="0.00"></td>
+            <td width="15%"><button class="btn  btn-danger" onclick="removeRittik(this)">X</button></td>
+          </tr>`
+          $('#render_rittiki').html(html);
+
+    $(".rittiki").select2({
+    theme:'bootstrap4',
+    placeholder:'select',
+    allowClear:true,
+    ajax:{
+      url:"{{URL::to('/get-rittiki')}}",
+      type:'post',
+      dataType:'json',
+      delay:20,
+      data:function(params){
+        return {
+          searchTerm:params.term,
+          _token:"{{csrf_token()}}",
+          }
+      },
+      processResults:function(response){
+        return {
+          results:response,
+        }
+      },
+      cache:true,
+    }
+  })
+  countRittiki+=1;
   }
  $(document).ready(function(){
     newRittiki();

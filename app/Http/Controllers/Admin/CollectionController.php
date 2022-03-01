@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Collections;
+use App\Models\Collection;
 use App\Models\RittikiRelation;
+use Validator;
+use DataTables;
 class CollectionController extends Controller
 {
     /**
@@ -16,22 +18,23 @@ class CollectionController extends Controller
     public function index()
     {
         if (request()->ajax()){
-            $get=Collections::query();
+            $get=Collection::with('donor')->get();
             return DataTables::of($get)
               ->addIndexColumn()
               ->addColumn('action',function($get){
               $button  ='<div class="d-flex justify-content-center">
-              <a data-url="'.route('admin.collection.edit',$get->id).'"  href="javascript:void(0)" class="btn btn-primary shadow btn-xs sharp me-1 editRow"><i class="fas fa-pencil-alt"></i></a>
-              <a data-url="'.route('admin.collection.destroy',$get->id).'" href="javascript:void(0)" class="btn btn-danger shadow btn-xs sharp deleteRow"><i class="fa fa-trash"></i></a>
+              <a data-url="'.route('collection.edit',$get->id).'"  href="javascript:void(0)" class="btn btn-primary shadow btn-xs sharp me-1 editRow"><i class="fas fa-pencil-alt"></i></a>
+              <a data-url="'.route('collection.destroy',$get->id).'" href="javascript:void(0)" class="btn btn-danger shadow btn-xs sharp deleteRow"><i class="fa fa-trash"></i></a>
           </div>';
             return $button;
           })
-          ->addColumn('icon',function($get){
-            $explode=explode('|',$get->icon);
-            $icon="<i class='fa ".$explode[0]."'></i> ".$explode[0];
-          return $icon;
+          ->addColumn('name',function($get){
+             return $get->donor->name;
         })
-          ->rawColumns(['action','icon'])->make(true);
+        ->addColumn('adress',function($get){
+            return $get->donor->adress;
+       })
+          ->rawColumns(['action','adress','name'])->make(true);
         }
         return view('backend.collection.collection');
     }
@@ -54,6 +57,7 @@ class CollectionController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $validator=Validator::make($request->all(),[
             'donor'=>"required|max:200|min:1",
             'sostoyoni'=>"required|max:200|min:1",
@@ -69,16 +73,17 @@ class CollectionController extends Controller
         ]);
 
         if($validator->passes()){
-            $collection=new Donor;
+            $collection=new Collection;
             $collection->donor_id=$request->donor;
             $collection->sostoyoni=$request->sostoyoni;
             $collection->istovriti=$request->istovriti;
             $collection->dokkhina=$request->dokkhina;
             $collection->songothoni=$request->songothoni;
             $collection->pronami=$request->pronami;
-            $collection->advertisement=$request->advertisement;
+            $collection->advertise=$request->advertisement;
             $collection->mandir_construction=$request->mandir_construction;
             $collection->various=$request->various;
+            $collection->total=$request->various+$request->sostoyoni+$request->istovriti+$request->dokkhina+$request->songothoni+$request->pronami+$request->advertisement+$request->mandir_construction;
             $collection->author_id=auth()->user()->id;
             $collection->save();
             $ammount=explode(',',$request->rittiki_ammount);
@@ -88,6 +93,9 @@ class CollectionController extends Controller
                 $rittiki_relations->collection_id=$collection->id;
                 $rittiki_relations->ammount=$ammount[$i];
                 $rittiki_relations->rittiki_id=$data;
+                $rittiki_relations->donor_id=$collection->donor_id;
+                $rittiki_relations->author_id=auth()->user()->id;
+                $rittiki_relations->save();
                 $i++;
             }
             if ($collection){
@@ -116,7 +124,7 @@ class CollectionController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response()->json(Collection::with('rittik')->find($id));
     }
 
     /**

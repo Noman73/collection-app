@@ -3,6 +3,7 @@
  @section('link')
  <link rel="stylesheet" href="{{('storage/adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{('storage/adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  @endsection
  @section('content')
     <!-- Content Header (Page header) -->
@@ -59,6 +60,7 @@
             </div>
             <div class="modal-body">
               <form method="POST">
+                <input type="hidden" id="id">
                 <div class="row">
                   <div class="col-12 col-md-6">
                     <div class="form-group">
@@ -71,49 +73,49 @@
                   <div class="col-12 col-md-6"> 
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">স্বস্ত্যয়নী:</label>
-                      <input type="text" class="form-control" id="sostoyoni" placeholder="0.00">
+                      <input type="number" class="form-control" id="sostoyoni" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">ইষ্টভৃতি:</label>
-                      <input type="text" class="form-control" id="istovriti" placeholder="0.00">
+                      <input type="number" class="form-control" id="istovriti" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">দক্ষিনা:</label>
-                      <input type="text" class="form-control" id="dokkhina" placeholder="0.00">
+                      <input type="number" class="form-control" id="dokkhina" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">সংগঠনী:</label>
-                      <input type="text" class="form-control" id="songothoni" placeholder="0.00">
+                      <input type="number" class="form-control" id="songothoni" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">প্রনামী:</label>
-                      <input type="text" class="form-control" id="pronami" placeholder="0.00">
+                      <input type="number" class="form-control" id="pronami" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">প্রচার ও প্রকাশন:</label>
-                      <input type="text" class="form-control" id="advertisement" placeholder="0.00">
+                      <input type="number" class="form-control" id="advertisement" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">শ্রীমন্দির নির্মান:</label>
-                      <input type="text" class="form-control" id="mandir_construction" placeholder="0.00">
+                      <input type="number" class="form-control" id="mandir_construction" placeholder="0.00">
                     </div>
                   </div>
                   <div class="col-12 col-md-6">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">বিবিধ:</label>
-                      <input type="text" class="form-control" id="various" placeholder="0.00">
+                      <input type="number" class="form-control" id="various" placeholder="0.00">
                     </div>
                   </div>
                 </div>

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('istovriti',20,2);
             $table->decimal('dokkhina',20,2);
             $table->decimal('songothoni',20,2);
-            $table->decimal('rittika',20,2);
+            $table->decimal('pronami',20,2);
             $table->decimal('advertise',20,2);
             $table->decimal('mandir_construction',20,2);
             $table->decimal('various',20,2);
