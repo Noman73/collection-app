@@ -17,4 +17,8 @@ class Collection extends Model
     {
         return $this->hasMany(RittikiRelation::class,'collection_id','id')->with('rittiki');
     }
+    public function totalrittik()
+    {
+        return $this->hasMany(RittikiRelation::class,'collection_id','id');
+    }
 }

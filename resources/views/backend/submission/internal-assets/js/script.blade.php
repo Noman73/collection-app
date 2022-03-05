@@ -4,8 +4,9 @@
         datatable= $('#datatable').DataTable({
         processing:true,
         serverSide:true,
+        responsive:true,
         ajax:{
-          url:"{{route('rittiki.index')}}"
+          url:"{{route('submission.index')}}"
         },
         columns:[
           {
@@ -15,28 +16,12 @@
             searchable:false
           },
           {
-            data:'name',
-            name:'name',
+            data:'collector',
+            name:'collector',
           },
           {
-            data:'adress',
-            name:'adress',
-          },
-          {
-            data:'mobile',
-            name:'mobile',
-          },
-          {
-            data:'total',
-            name:'total',
-          },
-          {
-            data:'pays',
-            name:'pays',
-          },
-          {
-            data:'balance',
-            name:'balance',
+            data:'ammount',
+            name:'ammount',
           },
           {
             data:'action',
@@ -48,22 +33,20 @@
     
 
 window.formRequest= function(){
-  $('input,select').removeClass('is-invalid');
-    let name=$('#name').val();
-    let adress=$('#adress').val();
-    let mobile=$('#mobile').val();
+    $('input,select').removeClass('is-invalid');
+    let collector=$('#collector').val();
+    let ammount=$('#ammount').val();
     let id=$('#id').val();
     let formData= new FormData();
-    formData.append('name',name);
-    formData.append('adress',adress);
-    formData.append('mobile',mobile);
-    $('#exampleModalLabel').text('ঋত্বিকী হালনাগাত করুন');
+    formData.append('collector',collector);
+    formData.append('ammount',ammount);
+    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
     if(id!=''){
       formData.append('_method','PUT');
     }
     //axios post request
     if (id==''){
-         axios.post("{{route('rittiki.store')}}",formData)
+         axios.post("{{route('submission.store')}}",formData)
         .then(function (response){
             if(response.data.message){
                 toastr.success(response.data.message)
@@ -79,7 +62,7 @@ window.formRequest= function(){
             }
         })
     }else{
-      axios.post("{{URL::to('rittiki/')}}/"+id,formData)
+      axios.post("{{URL::to('submission/')}}/"+id,formData)
         .then(function (response){
           if(response.data.message){
               toastr.success(response.data.message);
@@ -97,11 +80,11 @@ window.formRequest= function(){
 }
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
-    $('#exampleModalLabel').text('নতুন ঋত্বিকী যুক্ত করুন');
+    $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
 
 });
 $(document).delegate(".editRow", "click", function(){
-    $('#exampleModalLabel').text(' ঋত্বিকী হালনাগাত করুন');
+    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{
@@ -113,7 +96,10 @@ $(document).delegate(".editRow", "click", function(){
         if(key=='category_id'){
           $('#category').val(data.data[key]).niceSelect('update');
         }
-         $('#'+key).val(data.data[key]);
+        $('#'+key).val(data.data[key]);
+        if(key=='collector'){
+          $('#collector').html("<option value='"+data.data.collector_id+"'>"+data.data.collector.name+"</option")
+        }
          $('#modal').modal('show');
          $('#id').val(data.data.id);
       })
@@ -146,6 +132,30 @@ $(document).delegate(".deleteRow", "click", function(){
 function clear(){
   $("input").removeClass('is-invalid').val('');
   $(".invalid-feedback").text('');
-  $('form select').val('').niceSelect('update');
+  $('form select').val('').trigger('change');
 }
+
+$('#collector').select2({
+    theme:'bootstrap4',
+    placeholder:'select',
+    allowClear:true,
+    ajax:{
+      url:"{{URL::to('/get-collector')}}",
+      type:'post',
+      dataType:'json',
+      delay:20,
+      data:function(params){
+        return {
+          searchTerm:params.term,
+          _token:"{{csrf_token()}}",
+          }
+      },
+      processResults:function(response){
+        return {
+          results:response,
+        }
+      },
+      cache:true,
+    }
+  })
 </script>

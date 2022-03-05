@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Donor;
-use DataTables;
+use App\Models\Submission;
+use App\Models\User;
 use Validator;
-class DonorController extends Controller
+use DataTables;
+class SubmissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,25 +17,27 @@ class DonorController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth']);
-        // $this->middleware(['role:admin'])->except(['index']);
+        $this->middleware('auth');
     }
     public function index()
     {
-        if(request()->ajax()){
-            $get=Donor::query();
+        if (request()->ajax()){
+            $get=Submission::with('collector')->get();
             return DataTables::of($get)
               ->addIndexColumn()
               ->addColumn('action',function($get){
               $button  ='<div class="d-flex justify-content-center">
-              <a data-url="'.route('donor.edit',$get->id).'"  href="javascript:void(0)" class="btn btn-primary shadow btn-xs sharp me-1 editRow"><i class="fas fa-pencil-alt"></i></a>
-              <a data-url="'.route('donor.destroy',$get->id).'" href="javascript:void(0)" class="btn btn-danger shadow btn-xs sharp ml-1 deleteRow"><i class="fa fa-trash"></i></a>
+              <a data-url="'.route('submission.edit',$get->id).'"  href="javascript:void(0)" class="btn btn-primary shadow btn-xs sharp me-1 editRow"><i class="fas fa-pencil-alt"></i></a>
+              <a data-url="'.route('submission.destroy',$get->id).'" href="javascript:void(0)" class="btn btn-danger shadow btn-xs sharp ml-1 deleteRow"><i class="fa fa-trash"></i></a>
           </div>';
             return $button;
           })
-          ->rawColumns(['action'])->make(true);
+          ->addColumn('collector',function($get){
+            return $get->collector->name;
+        })
+          ->rawColumns(['action','collector'])->make(true);
         }
-        return view('backend.donor.donor');
+        return view('backend.submission.submission');
     }
 
     /**
@@ -56,19 +59,18 @@ class DonorController extends Controller
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(),[
-            'name'=>"required|max:200|min:1",
-            'adress'=>"required|max:200|min:1",
-            'mobile'=>"required|max:200|min:1",
+            'collector'=>"required|max:200|min:1",
+            'ammount'=>"required|max:20|min:1",
         ]);
         if($validator->passes()){
-            $donor=new Donor;
-            $donor->name=$request->name;
-            $donor->adress=$request->adress;
-            $donor->mobile=$request->mobile;
+            $donor=new Submission;
+            $donor->collector_id=$request->collector;
+            $donor->ammount=$request->ammount;
+            $donor->status=1;
             $donor->author_id=auth()->user()->id;
             $donor->save();
             if ($donor) {
-                return response()->json(['message'=>'Donor Added Success']);
+                return response()->json(['message'=>'Submission Success']);
             }
         }
         return response()->json(['error'=>$validator->getMessageBag()]);
@@ -93,7 +95,7 @@ class DonorController extends Controller
      */
     public function edit($id)
     {
-        return response()->json(Donor::find($id));
+        return response()->json(Submission::with('collector')->find($id));
     }
 
     /**
@@ -105,22 +107,19 @@ class DonorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $validator=Validator::make($request->all(),[
-            'name'=>["required","max:200","min:1"],
-            'adress'=>["required","max:200","min:1"],
-            'mobile'=>["required","max:200","min:1"],
+            'collector'=>"required|max:200|min:1",
+            'ammount'=>"required|max:20|min:1",
         ]);
-
         if($validator->passes()){
-            $donor=Donor::find($id);
-            $donor->name=$request->name;
-            $donor->adress=$request->adress;
-            $donor->mobile=$request->mobile;
+            $donor=Submission::find($id);
+            $donor->collector_id=$request->collector;
+            $donor->ammount=$request->ammount;
+            $donor->status=1;
             $donor->author_id=auth()->user()->id;
             $donor->save();
             if ($donor) {
-                return response()->json(['message'=>'Donor Updated Success']);
+                return response()->json(['message'=>'Submission Updated Success']);
             }
         }
         return response()->json(['error'=>$validator->getMessageBag()]);
@@ -134,19 +133,19 @@ class DonorController extends Controller
      */
     public function destroy($id)
     {
-        $delete=Donor::where('id',$id)->delete();
+        $delete=Submission::where('id',$id)->delete();
         if ($delete) {
-            return response()->json(['message'=>'দাতা ডিলেট করা হয়েছে']);
+            return response()->json(['message'=>'ডিলেট করা হয়েছে']);
         }else{
             return response()->json(['warning'=>'কিছু একটা ভুল করেছেন']);
         }
+    }
 
-    }
-    public function getDonor(Request $request){
-       $donors= Donor::where('name','like','%'.$request->searchTerm.'%')->orWhere('mobile','like','%'.$request->searchTerm.'%')->take(15)->get();
-       foreach ($donors as $value){
-            $set_data[]=['id'=>$value->id,'text'=>$value->name.'('.$value->mobile.')'];
-        }
-        return $set_data;
-    }
+    public function getCollector(Request $request){
+        $donors= User::where('name','like','%'.$request->searchTerm.'%')->orWhere('email','like','%'.$request->searchTerm.'%')->take(15)->get();
+        foreach ($donors as $value){
+             $set_data[]=['id'=>$value->id,'text'=>$value->name.'('.$value->email.')'];
+         }
+         return $set_data;
+     }
 }

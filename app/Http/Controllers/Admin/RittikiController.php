@@ -17,7 +17,7 @@ class RittikiController extends Controller
     public function index()
     {
         if (request()->ajax()){
-            $get=Rittiky::query();
+            $get=Rittiky::with('ammount')->get();
             return DataTables::of($get)
               ->addIndexColumn()
               ->addColumn('action',function($get){
@@ -27,6 +27,15 @@ class RittikiController extends Controller
                         </div>';
             return $button;
           })
+          ->addColumn('total',function($get){
+              return number_format($get->ammount->sum('ammount'),2);
+          })
+          ->addColumn('pays',function($get){
+            return number_format($get->pays->sum('ammount'),2);
+        })
+        ->addColumn('balance',function($get){
+            return number_format(intval($get->ammount->sum('ammount')-$get->pays->sum('ammount')),2);
+        })
           ->rawColumns(['action'])->make(true);
         }
         return view('backend.rittiki.rittiki');

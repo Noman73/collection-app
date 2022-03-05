@@ -1,35 +1,39 @@
 <script>
-    var datatable= $('#datatable').DataTable({
-    processing:true,
-    serverSide:true,
-    ajax:{
-      url:"{{route('donor.index')}}"
-    },
-    columns:[
-      {
-        data:'DT_RowIndex',
-        name:'DT_RowIndex',
-        orderable:false,
-        searchable:false
-      },
-      {
-        data:'name',
-        name:'name',
-      },
-      {
-        data:'adress',
-        name:'adress',
-      },
-      {
-        data:'mobile',
-        name:'mobile',
-      },
-      {
-        data:'action',
-        name:'action',
-      }
-    ]
-});
+    var datatable;
+    $(document).ready(function(){
+        datatable= $('#datatable').DataTable({
+        processing:true,
+        serverSide:true,
+        ajax:{
+          url:"{{route('donor.index')}}"
+        },
+        columns:[
+          {
+            data:'DT_RowIndex',
+            name:'DT_RowIndex',
+            orderable:false,
+            searchable:false
+          },
+          {
+            data:'name',
+            name:'name',
+          },
+          {
+            data:'adress',
+            name:'adress',
+          },
+          {
+            data:'mobile',
+            name:'mobile',
+          },
+          {
+            data:'action',
+            name:'action',
+          }
+        ]
+    });
+  })
+    
 
 window.formRequest= function(){
     $('input,select').removeClass('is-invalid');

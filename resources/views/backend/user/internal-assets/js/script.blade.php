@@ -1,11 +1,11 @@
 <script>
-  var datatable;
-  $(document).ready(function(){
+    var datatable;
+    $(document).ready(function(){
         datatable= $('#datatable').DataTable({
         processing:true,
         serverSide:true,
         ajax:{
-          url:"{{route('rittiki.index')}}"
+          url:"{{route('user.index')}}"
         },
         columns:[
           {
@@ -27,16 +27,8 @@
             name:'mobile',
           },
           {
-            data:'total',
-            name:'total',
-          },
-          {
-            data:'pays',
-            name:'pays',
-          },
-          {
-            data:'balance',
-            name:'balance',
+            data:'role',
+            name:'role',
           },
           {
             data:'action',
@@ -48,22 +40,30 @@
     
 
 window.formRequest= function(){
-  $('input,select').removeClass('is-invalid');
+    $('input,select').removeClass('is-invalid');
     let name=$('#name').val();
+    let email=$('#email').val();
+    let password=$('#password').val();
+    let password_confirmation=$('#password-confirmation').val();
     let adress=$('#adress').val();
     let mobile=$('#mobile').val();
+    var role = $('#role').select2('data');
     let id=$('#id').val();
     let formData= new FormData();
     formData.append('name',name);
+    formData.append('email',email);
     formData.append('adress',adress);
     formData.append('mobile',mobile);
-    $('#exampleModalLabel').text('ঋত্বিকী হালনাগাত করুন');
+    formData.append('role',role[0].text);
+    formData.append('password',password);
+    formData.append('password_confirmation',password_confirmation);
+    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
     if(id!=''){
       formData.append('_method','PUT');
     }
     //axios post request
     if (id==''){
-         axios.post("{{route('rittiki.store')}}",formData)
+         axios.post("{{route('user.store')}}",formData)
         .then(function (response){
             if(response.data.message){
                 toastr.success(response.data.message)
@@ -79,7 +79,7 @@ window.formRequest= function(){
             }
         })
     }else{
-      axios.post("{{URL::to('rittiki/')}}/"+id,formData)
+      axios.post("{{URL::to('user/')}}/"+id,formData)
         .then(function (response){
           if(response.data.message){
               toastr.success(response.data.message);
@@ -97,11 +97,11 @@ window.formRequest= function(){
 }
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
-    $('#exampleModalLabel').text('নতুন ঋত্বিকী যুক্ত করুন');
+    $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
 
 });
 $(document).delegate(".editRow", "click", function(){
-    $('#exampleModalLabel').text(' ঋত্বিকী হালনাগাত করুন');
+    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{
@@ -148,4 +148,28 @@ function clear(){
   $(".invalid-feedback").text('');
   $('form select').val('').niceSelect('update');
 }
+
+$('#role').select2({
+    theme:'bootstrap4',
+    placeholder:'select',
+    allowClear:true,
+    ajax:{
+      url:"{{URL::to('/get-role')}}",
+      type:'post',
+      dataType:'json',
+      delay:20,
+      data:function(params){
+        return {
+          searchTerm:params.term,
+          _token:"{{csrf_token()}}",
+          }
+      },
+      processResults:function(response){
+        return {
+          results:response,
+        }
+      },
+      cache:true,
+    }
+  })
 </script>

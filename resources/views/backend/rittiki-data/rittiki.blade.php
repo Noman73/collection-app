@@ -11,12 +11,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">ঋত্বিকী</h1>
+            <h1 class="m-0">ঋত্বিকী হিসাব</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">হোম</a></li>
-              <li class="breadcrumb-item active">ঋত্বিকী</li>
+              <li class="breadcrumb-item active">ঋত্বিকী হিসাব</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,7 +29,7 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">ঋত্বিকী <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="card-title">দাতা <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
             </div>
             <div class="card-body">
               <table class="table text-center table-bordered" id="datatable">
@@ -39,9 +39,6 @@
                     <th>নাম</th>
                     <th>ঠিকানা</th>
                     <th>মোবাইল</th>
-                    <th>মোট পেয়েছেন</th>
-                    <th>মোট নিয়েছেন</th>
-                    <th>মোট পাবেন</th>
                     <th>এ্যাকশন</th>
                   </tr>
                 </thead>

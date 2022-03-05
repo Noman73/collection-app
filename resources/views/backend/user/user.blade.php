@@ -11,12 +11,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">ঋত্বিকী</h1>
+            <h1 class="m-0">ব্যবহারকারী</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">হোম</a></li>
-              <li class="breadcrumb-item active">ঋত্বিকী</li>
+              <li class="breadcrumb-item active">ব্যবহারকারী</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,7 +29,7 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">ঋত্বিকী <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="card-title">ব্যবহারকারী <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
             </div>
             <div class="card-body">
               <table class="table text-center table-bordered" id="datatable">
@@ -39,9 +39,7 @@
                     <th>নাম</th>
                     <th>ঠিকানা</th>
                     <th>মোবাইল</th>
-                    <th>মোট পেয়েছেন</th>
-                    <th>মোট নিয়েছেন</th>
-                    <th>মোট পাবেন</th>
+                    <th>রোল</th>
                     <th>এ্যাকশন</th>
                   </tr>
                 </thead>
@@ -69,18 +67,58 @@
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">নাম:</label>
                       <input type="text" class="form-control" id="name" placeholder="নাম লিখুন">
+                      <div class="invalid-feedback" id="name_msg">
+                      </div>
                     </div>
                   </div>
-                  <div class="col-8 mr-auto ml-auto"> 
+                  <div class="col-8 mr-auto ml-auto">
                     <div class="form-group">
-                      <label for="message-text" class="col-form-label">ঠিকানা:</label>
-                      <input type="text" class="form-control" id="adress" placeholder="ঠিকানা">
+                      <label for="recipient-name" class="col-form-label">ইমেইল:</label>
+                      <input type="text" class="form-control" id="email" placeholder="নাম লিখুন">
+                      <div class="invalid-feedback" id="name_msg">
+                      </div>
                     </div>
                   </div>
                   <div class="col-8 mr-auto ml-auto">
                     <div class="form-group">
                       <label for="message-text" class="col-form-label">মোবাইল:</label>
                       <input type="number" class="form-control" id="mobile" placeholder="মোবাইল">
+                      <div class="invalid-feedback" id="mobile_msg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8 mr-auto ml-auto"> 
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">ঠিকানা:</label>
+                      <input type="text" class="form-control" id="adress" placeholder="ঠিকানা">
+                      <div class="invalid-feedback" id="adress_msg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8 mr-auto ml-auto">
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label"> রোল:</label>
+                      <select class="form-control" name="role" id="role">
+                          <option value="">Select</option>
+                      </select>
+                      <div class="invalid-feedback" id="role_msg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8 mr-auto ml-auto"> 
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">পাসওয়ার্ড:</label>
+                      <input type="password" class="form-control" id="password" placeholder="ঠিকানা">
+                      <div class="invalid-feedback" id="password_msg">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8 mr-auto ml-auto"> 
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">কনফার্ম পাসওয়ার্ড:</label>
+                      <input type="password" class="form-control" id="password-confirmation" placeholder="ঠিকানা">
+                      <div class="invalid-feedback" id="password-confirmation_msg">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -103,5 +141,5 @@
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  @include('backend.rittiki.internal-assets.js.script')
+  @include('backend.user.internal-assets.js.script')
   @endsection

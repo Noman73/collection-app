@@ -31,11 +31,29 @@
               </p>
             </a>
           </li>
+          @role('admin')
+          <li class="nav-item">
+            <a href="{{route('submission.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                কালেক্টর জমা
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{URL::to('/collector-data')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                কালেক্টর তথ্য
+              </p>
+            </a>
+          </li>
+          @endrole
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-th"></i>
               <p>
-                Collection
+                আদায়
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -43,11 +61,57 @@
               <li class="nav-item">
                 <a href="{{route('collection.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Collections</p>
+                  <p>আদায়</p>
                 </a>
               </li>
-              
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('donor.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                দাতা
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('rittiki.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                ঋত্বিকী
+              </p>
+            </a>
+          </li>
+          @role('admin')
+          <li class="nav-item">
+            <a href="{{route('rittiki-pay.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                ঋত্বিকী পরিশোধ
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('user.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+               ব্যবহারকারী
+              </p>
+            </a>
+          </li>
+          @endrole
+          <li class="nav-item">
+            <a href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();" class="nav-link">
+              <i class="nav-icon fas fa-power"></i>
+              <p>
+                Log Out
+              </p>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+          </form>
           </li>
         </ul>
       </nav>

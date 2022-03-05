@@ -11,12 +11,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">কালেকশন</h1>
+            <h1 class="m-0">কালেকটর</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">হোম</a></li>
-              <li class="breadcrumb-item active">কালেকশন</li>
+              <li class="breadcrumb-item active">কালেকটর</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,7 +29,7 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">কালেকশন <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="card-title">কালেকটর হিসাব </div>
             </div>
             <div class="card-body">
               <table class="table table-bordered" id="datatable">
@@ -47,8 +47,8 @@
                     <th>বিবিধ</th>
                     <th>ঋত্বিকী</th>
                     <th>মোট</th>
-                    <th>ঠিকানা</th>
-                    <th>এ্যাকশন</th>
+                    <th>জমা</th>
+                    <th>ব্যালেন্স</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,7 @@
           </div>
       </div><!-- /.container-fluid -->
       {{-- modal --}}
-      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal">
+      {{-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -153,7 +153,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
       {{-- endmodal --}}
     </section>
   @endsection
@@ -163,6 +163,6 @@
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
 
-  @include('backend.collection.internal-assets.js.script')
+  @include('backend.collector-data.internal-assets.js.script')
 
   @endsection
