@@ -117,7 +117,7 @@ window.formRequest= function(){
             if(response.data.message){
                 toastr.success(response.data.message)
                 datatable.ajax.reload();
-                clear();
+                Clear();
                 $('#modal').modal('hide');
             }else if(response.data.error){
               var keys=Object.keys(response.data.error);
@@ -133,7 +133,7 @@ window.formRequest= function(){
           if(response.data.message){
               toastr.success(response.data.message);
               datatable.ajax.reload();
-              clear();
+              Clear();
           }else if(response.data.error){
               var keys=Object.keys(response.data.error);
               keys.forEach(function(d){
@@ -145,7 +145,7 @@ window.formRequest= function(){
     }
 }
 $(document).delegate("#modalBtn", "click", function(event){
-    clear();
+    Clear();
     $('#exampleModalLabel').text('নতুন কালেকশন যুক্ত করুন');
 });
 $(document).delegate(".editRow", "click", function(){
@@ -206,10 +206,14 @@ $(document).delegate(".deleteRow", "click", function(){
       }
     })
 });
-function clear(){
+function Clear(){
+  countRittiki=0;
   $("input").removeClass('is-invalid').val('');
   $(".invalid-feedback").text('');
   $('form select').val('').trigger('change');
+  $('input').val('');
+  $('#render_rittiki').empty()
+  newRittiki();
 }
 
 // $('#donor').select2({
@@ -241,14 +245,12 @@ $('#donor').select2({
   })
   var countRittiki=0;
   function newRittiki(){
-    
     html=`<tr>
             <td width="65%"><select class="form-control rittiki" name="rittiki[]" id="rittiki`+countRittiki+`"><option value="">select</option></select></td>
             <td width="20%"><input type="number" class="form-control rittiki_ammount" name="rittiki_ammount[]" id="rittiki_ammount`+countRittiki+`" placeholder="0.00"></td>
             <td width="15%"><button class="btn  btn-danger" onclick="removeRittik(this)">X</button></td>
           </tr>`
           $('#render_rittiki').append(html);
-
     $(".rittiki").select2({
     theme:'bootstrap4',
     placeholder:'select',
@@ -273,9 +275,7 @@ $('#donor').select2({
     }
   })
     countRittiki+=1;
-
   }
-
   function editRittiki(val){
     html=`<tr>
             <td width="65%"><input type="hidden" value="`+val+`" name="rel_no[]"><select class="form-control rittiki" name="rittiki[]" id="rittiki`+countRittiki+`"><option value="">select</option></select></td>
@@ -315,7 +315,6 @@ $('#donor').select2({
     $(val).parent().parent().remove();
   }
 function totalCount(){
-  // console.log('sdfdf')
   sostoyoni=parseInt($('#sostoyoni').val());
   istovriti=parseInt($('#istovriti').val());
   dokkhina=parseInt($('#dokkhina').val());
@@ -345,10 +344,84 @@ function totalCount(){
     rittiki_ammount+= amount;
     $('#total').val(total_ammount+rittiki_ammount);
   });
- 
 }
-
 $(document).on('change keyup','input',function(){
   totalCount()
 })
+
+$(document).ready(function(){
+    $("#add-donor").click(function(){
+        $("#modal2").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    });
+});
+$(document).ready(function(){
+    $("#add-rittiki").click(function(){
+        $("#modal3").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    });
+});
+
+// donor request
+window.donorRequest= function(){
+    $('input,select').removeClass('is-invalid');
+    let name=$('#name').val();
+    let adress=$('#adress').val();
+    let mobile=$('#mobile').val();
+    let formData= new FormData();
+    formData.append('name',name);
+    formData.append('adress',adress);
+    formData.append('mobile',mobile);
+    formData.append('_token','{{csrf_token()}}')
+    //axios post request
+         axios.post("{{route('donor.store')}}",formData)
+        .then(function (response){
+          console.log(response)
+            if(response.data.message){
+                toastr.success(response.data.message)
+                datatable.ajax.reload();
+                Clear();
+                $('#modal2').modal('hide');
+            }else if(response.data.error){
+              var keys=Object.keys(response.data.error);
+              keys.forEach(function(d){
+                $('#'+d).addClass('is-invalid');
+                $('#'+d+'_msg').text(response.data.error[d][0]);
+              })
+            }
+        })
+}
+
+// window.rittikiRequest= function(){
+//     $('input,select').removeClass('is-invalid');
+//     let rittiki_name=$('#rittiki-name').val();
+//     let rittiki_adress=$('#rittiki-adress').val();
+//     let rittiki_mobile=$('#rittiki-mobile').val();
+//     let formData= new FormData();
+//     formData.append('name',rittiki_name);
+//     formData.append('adress',rittiki_adress);
+//     formData.append('mobile',rittiki_mobile);
+//     formData.append('_token','{{csrf_token()}}')
+//     //axios post request
+//          axios.post("{{route('rittiki.store')}}",formData)
+//         .then(function (response){
+//           console.log(response)
+//             if(response.data.message){
+//                 toastr.success(response.data.message)
+//                 datatable.ajax.reload();
+//                 Clear();
+//                 $('#modal3').modal('hide');
+//             }else if(response.data.error){
+//               var keys=Object.keys(response.data.error);
+//               keys.forEach(function(d){
+//                 $('#'+d).addClass('is-invalid');
+//                 $('#'+d+'_msg').text(response.data.error[d][0]);
+//               })
+//             }
+//         })
+// }
 </script>

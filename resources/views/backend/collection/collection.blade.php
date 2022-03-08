@@ -58,25 +58,28 @@
           </div>
       </div><!-- /.container-fluid -->
       {{-- modal --}}
-      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal">
-        <div class="modal-dialog modal-lg">
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal" >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">নতুন কালেকশন</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" >
               <form method="POST">
                 <input type="hidden" id="id">
                 <div class="row">
                   <div class="col-12 col-md-6">
-                    <div class="form-group">
-                      <label for="recipient-name" class="col-form-label">দাতা:</label>
+                    <label for="recipient-name" class="col-form-label d-block">দাতা:</label>
+                    <div class="input-group">
                       <select  class="form-control" id="donor" >
                         <option value="">select</option>
                       </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="add-donor">যুক্ত করুন</button>
+                      </div>
                     </div>
                   </div>
                   <div class="col-12 col-md-6"> 
@@ -135,7 +138,12 @@
                   </div>
                 </div>
                 <div class="row">
-                    <h5 class="text-center">ঋত্বিকী সিলেক্ট করুন</h5>
+                  <div class="col-12">
+                    <p class="mt-2">ঋত্বিকী</p>
+                  </div>
+                  {{-- <div class="col-6">
+                    <button onclick="event.preventDefault()" class="btn btn-primary float-right mb-1" id="add-rittiki">যুক্ত করুন</button>
+                  </div> --}}
                     <div class="table-responsive">
                       <table class="table table-sm text-center">
                         <tbody id="render_rittiki">
@@ -148,13 +156,89 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Clear()">Close</button>
               <button type="button" class="btn btn-primary" onclick="event.preventDefault();formRequest()">Save</button>
             </div>
           </div>
         </div>
       </div>
       {{-- endmodal --}}
+      {{-- donor modal --}}
+      <div id="modal2" class="modal fade" role="dialog" style="z-index: 1600;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">নতুন দাতা</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">নাম:</label>
+                    <input type="text" class="form-control" id="name" placeholder="নাম লিখুন">
+                    <div class="invalid-feedback" id="name_msg">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">ঠিকানা:</label>
+                    <input type="text" class="form-control" id="adress" placeholder="ঠিকানা">
+                    <div class="invalid-feedback" id="adress_msg">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">মোবাইল:</label>
+                    <input type="number" class="form-control" id="mobile" placeholder="মোবাইল">
+                    <div class="invalid-feedback" id="mobile_msg">
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Clear()">Close</button>
+              <button type="button" class="btn btn-primary" onclick="event.preventDefault();donorRequest()">Save</button>
+            </div>     
+          </div>
+        </div>
+      </div>
+      {{-- end donor modal --}}
+      {{-- rittiki modal --}}
+      {{-- <div id="modal3" class="modal fade" role="dialog" style="z-index: 1600;">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">নতুন ঋত্বিকী</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="Clear()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">নাম:</label>
+                    <input type="text" class="form-control" id="rittiki-name" placeholder="নাম লিখুন">
+                    <div class="invalid-feedback" id="name_msg">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">ঠিকানা:</label>
+                    <input type="text" class="form-control" id="rittiki-adress" placeholder="ঠিকানা">
+                    <div class="invalid-feedback" id="adress_msg">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="message-text" class="col-form-label">মোবাইল:</label>
+                    <input type="number" class="form-control" id="rittiki-mobile" placeholder="মোবাইল">
+                    <div class="invalid-feedback" id="mobile_msg">
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Clear()">Close</button>
+              <button type="button" class="btn btn-primary" onclick="event.preventDefault();rittikiRequest()">Save</button>
+            </div>     
+          </div>
+        </div>
+      </div> --}}
+      {{-- end donor modal --}}
     </section>
   @endsection
   @section('script')
@@ -162,7 +246,5 @@
   <script src="{{('storage/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
   <script src="{{('storage/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-
   @include('backend.collection.internal-assets.js.script')
-
   @endsection
