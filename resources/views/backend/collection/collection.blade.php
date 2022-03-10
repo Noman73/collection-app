@@ -29,7 +29,16 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">কালেকশন <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="card-title">কালেকশন</div>
+                </div>
+                <div class="col-6 ">
+                  <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button>
+                </div>
+              </div>
+              
+               
             </div>
             <div class="card-body">
               <table class="table table-bordered" id="datatable">

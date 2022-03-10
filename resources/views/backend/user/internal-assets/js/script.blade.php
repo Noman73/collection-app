@@ -4,6 +4,7 @@
         datatable= $('#datatable').DataTable({
         processing:true,
         serverSide:true,
+        responsive:true,
         ajax:{
           url:"{{route('user.index')}}"
         },
@@ -96,11 +97,13 @@ window.formRequest= function(){
     }
 }
 $(document).delegate("#modalBtn", "click", function(event){
+    console.log('fire')
     clear();
     $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
-
+    $('.password').removeClass('d-none')
 });
 $(document).delegate(".editRow", "click", function(){
+    $('.password').addClass('d-none')
     $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
@@ -146,7 +149,6 @@ $(document).delegate(".deleteRow", "click", function(){
 function clear(){
   $("input").removeClass('is-invalid').val('');
   $(".invalid-feedback").text('');
-  $('form select').val('').niceSelect('update');
 }
 
 $('#role').select2({

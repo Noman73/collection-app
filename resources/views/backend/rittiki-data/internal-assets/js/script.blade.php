@@ -2,6 +2,7 @@
     var datatable= $('#datatable').DataTable({
     processing:true,
     serverSide:true,
+    responsive:true,
     ajax:{
       url:"{{route('rittiki.index')}}"
     },

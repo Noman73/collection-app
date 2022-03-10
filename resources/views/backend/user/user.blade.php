@@ -29,7 +29,15 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">ব্যবহারকারী <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="row">
+                  <div class="col-6">
+                    <div class="card-title">ব্যবহারকারী </div>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modal" data-whatever="@mdo" id="modalBtn">নতুন</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <table class="table text-center table-bordered" id="datatable">
@@ -75,7 +83,7 @@
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">ইমেইল:</label>
                       <input type="text" class="form-control" id="email" placeholder="নাম লিখুন">
-                      <div class="invalid-feedback" id="name_msg">
+                      <div class="invalid-feedback" id="email_msg">
                       </div>
                     </div>
                   </div>
@@ -105,22 +113,22 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-8 mr-auto ml-auto"> 
-                    <div class="form-group">
-                      <label for="message-text" class="col-form-label">পাসওয়ার্ড:</label>
-                      <input type="password" class="form-control" id="password" placeholder="ঠিকানা">
-                      <div class="invalid-feedback" id="password_msg">
+                    <div class="col-8 mr-auto ml-auto password"> 
+                      <div class="form-group">
+                        <label for="message-text" class="col-form-label">পাসওয়ার্ড:</label>
+                        <input type="password" class="form-control" id="password" placeholder="পাসওয়ার্ড">
+                        <div class="invalid-feedback" id="password_msg">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-8 mr-auto ml-auto"> 
-                    <div class="form-group">
-                      <label for="message-text" class="col-form-label">কনফার্ম পাসওয়ার্ড:</label>
-                      <input type="password" class="form-control" id="password-confirmation" placeholder="ঠিকানা">
-                      <div class="invalid-feedback" id="password-confirmation_msg">
+                    <div class="col-8 mr-auto ml-auto password"> 
+                      <div class="form-group">
+                        <label for="message-text" class="col-form-label">কনফার্ম পাসওয়ার্ড:</label>
+                        <input type="password" class="form-control" id="password-confirmation" placeholder="পাসওয়ার্ড">
+                        <div class="invalid-feedback" id="password-confirmation_msg">
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               </form>
             </div>

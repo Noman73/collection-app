@@ -80,11 +80,11 @@ window.formRequest= function(){
 }
 $(document).delegate("#modalBtn", "click", function(event){
     clear();
-    $('#exampleModalLabel').text('নতুন দাতা যুক্ত করুন');
+    $('#exampleModalLabel').text('জমা নিন');
 
 });
 $(document).delegate(".editRow", "click", function(){
-    $('#exampleModalLabel').text('দাতা হালনাগাত করুন');
+    $('#exampleModalLabel').text('জমা হালনাগাত করুন');
     let route=$(this).data('url');
     axios.get(route)
     .then((data)=>{

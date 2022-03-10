@@ -29,7 +29,14 @@
 
         <div class="card ">
             <div class="card-header bg-dark">
-              <div class="card-title">ঋত্বিকী পরিশোধ <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button></div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="card-title">ঋত্বিকী পরিশোধ </div>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modal" data-whatever="@mdo">নতুন</button>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <table class="table text-center table-bordered" id="datatable">
@@ -67,7 +74,7 @@
                       <select class="form-control" name="" id="rittiki">
                           <option value="">Select</option>
                       </select>
-                      <div class="invalid-feedback" id="name_msg">
+                      <div class="invalid-feedback" id="rittiki_msg">
                       </div>
                     </div>
                   </div>

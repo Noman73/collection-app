@@ -1,4 +1,8 @@
  <!-- Content Wrapper. Contains page content -->
+ @php
+ use Rakibhstu\Banglanumber\NumberToBangla;
+$bangla=new NumberToBangla;
+ @endphp
  @extends('layouts.master')
  @section('content')
  
@@ -7,12 +11,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">ড্যাশবোর্ড</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+              <li class="breadcrumb-item"><a href="#">হোম</a></li>
+              <li class="breadcrumb-item active">ড্যাশবোর্ড</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,11 +31,11 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('istovriti'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('istovriti'),2,'.',''))}}</h3>
                   <p><strong>ইষ্টভৃতি</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-bag"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -41,12 +45,12 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('sostoyoni'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('sostoyoni'),2,'.',''))}}</h3>
   
                   <p><strong>স্বস্ত্যয়নী</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -56,12 +60,12 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('dokkhina'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('dokkhina'),2,'.',''))}}</h3>
   
                   <p><strong>দক্ষিনা</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -71,12 +75,12 @@
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('songothoni'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('songothoni'),2,'.',''))}}</h3>
   
                   <p><strong>সংগঠনী</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -85,12 +89,12 @@
               <!-- small box -->
               <div class="small-box bg-purple">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('pronami'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('pronami'),2,'.',''))}}</h3>
   
                   <p><strong> প্রনামী</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -99,12 +103,12 @@
               <!-- small box -->
               <div class="small-box bg-dark">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('advertise'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('advertise'),2,'.',''))}}</h3>
   
                   <p><strong>বিজ্ঞাপন</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -113,11 +117,11 @@
               <!-- small box -->
               <div class="small-box bg-secondary">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('mandir_construction'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('mandir_construction'),2,'.',''))}}</h3>
                   <p><strong>মন্দির তৈরী</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -126,12 +130,12 @@
               <!-- small box -->
               <div class="small-box bg-muted">
                 <div class="inner">
-                  <h3>{{number_format($data->sum('various'),2)}}</h3>
+                  <h3>{{$bangla->bnNum(number_format($data->sum('various'),2,'.',''))}}</h3>
   
                   <p><strong>বিবিধ</strong></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-money-bill-wave"></i>
                 </div>
                 <a href="{{URL::to('/collection')}}" class="small-box-footer text-dark">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>

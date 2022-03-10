@@ -8,6 +8,7 @@ use App\Models\User;
 use DataTables;
 use Validator;
 use Hash;
+use App\Rules\roleRule;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -64,13 +65,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json($request->all());
         $validator=Validator::make($request->all(),[
             'name'=>"required|max:200|min:1",
             'email'=>"required|email|max:200|min:1",
             'adress'=>"required|max:200|min:1",
-            'mobile'=>"required|max:11|min:11",
+            'mobile'=>"required|max:11|min:11|unique:users,mobile",
             'password'=>"required|max:50|min:6|confirmed",
-            'role'=>"required|max:50|min:1",
+            'role'=>["required","max:50","min:1",new roleRule],
         ]);
         if($validator->passes()){
             $user=new User;
@@ -107,7 +109,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response()->json(User::find($id));
     }
 
     /**
@@ -119,7 +121,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'name'=>"required|max:200|min:1",
+            'email'=>"required|email|max:200|min:1",
+            'adress'=>"required|max:200|min:1",
+            'mobile'=>"required|max:11|min:11|unique:users,mobile,".$id,
+            'role'=>"required|max:50|min:1",
+        ]);
+        if($validator->passes()){
+            $user=User::find($id);
+            $user->name=$request->name;
+            $user->adress=$request->adress;
+            $user->mobile=$request->mobile;
+            $user->email=$request->email;
+            $user->assignRole($request->role);
+            $user->save();
+            if ($user) {
+                return response()->json(['message'=>'User Updated Success']);
+            }
+        }
+        return response()->json(['error'=>$validator->getMessageBag()]);
     }
 
     /**

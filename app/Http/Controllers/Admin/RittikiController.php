@@ -14,6 +14,10 @@ class RittikiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware(['auth','role:admin'])->except(['getRittiki']);
+    }
     public function index()
     {
         if (request()->ajax()){
@@ -62,7 +66,7 @@ class RittikiController extends Controller
         $validator=Validator::make($request->all(),[
             'name'=>"required|max:200|min:1",
             'adress'=>"required|max:200|min:1",
-            'mobile'=>"required|max:200|min:1",
+            'mobile'=>"required|max:200|min:1|unique:rittikies,mobile",
         ]);
 
         if($validator->passes()){
